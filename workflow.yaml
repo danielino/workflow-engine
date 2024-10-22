@@ -1,0 +1,31 @@
+kind: Workflow
+jobs:
+  - name: prepare environment
+    steps:
+      - name: run test step 01
+        plugin: script
+        command: shell
+        args:
+          - echo script | sed 's/pt/aaa/'
+      - name: clone git repo
+        plugin: git
+        command: clone_repo
+        args:
+          url: https://github.com/danielino/test-basic-repo.git
+          path: /Users/dmarcocci/test-basic-repo
+          overwrite: true
+      - name: create repo
+        plugin: git
+        command: create_repo
+        args:
+          name: test
+          path: test
+  - name: execute
+    steps:
+      - name: run commit
+        plugin: script
+        command: shell
+        workdir: /Users/dmarcocci/test-basic-repo
+        args:
+          - pwd
+          - ls -larth
